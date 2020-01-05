@@ -1,104 +1,94 @@
 #include "pch.h"
 #include "Player.h"
+#include <string.h>
 
+Player::Player() {} //pass by pointer, getDeck returns vector<Card> mydeck and from there adjust and change the values, then set it again.{}
 
-Player::Player() //pass by pointer, getDeck returns vector<Card> mydeck and from there adjust and change the values, then set it again.
-{}
+void Player::setPlayerID(const std::string ID) {
 
-
-void Player::setPlayerID(string ID)
-{
-	player_ID = ID;
+	m_ID = ID;
 }
 
-string Player::getPlayerID()
-{
-	return player_ID;
-}
+void Player::drawStartingHand(Deck &deck) {
 
-void Player::drawStartingHand(Deck &deckptr) {
+	for (uint8_t i = 0; i < START_HAND_SIZE; i++) {
 
-	int i;
-
-	for (i = 0; i < START_HAND; i++)
-	{
-		myhand.push_back(deckptr.drawCard());
+        drawCard(deck);       
 	}
-
 }
 
-void Player::drawCard(Deck &deckptr)
-{
-	myhand.push_back(deckptr.drawCard());
+void Player::drawCard(Deck &deck) {
+
+	m_hand.push_back(deck.drawCardFromDeck());
+}
+
+void Player::showHand() {
+
+	std::cout << "Player " << getPlayerID() << " hand" << std::endl;
+
+    for (int i = 0; i < m_hand.size(); i++) {
+
+        std::cout << i << "." << m_hand[i].getEnumColorToString() << " " << m_hand[i].getEnumSuitToString() << std::endl;
+    }
+	std::cout << std::endl;
+}
+
+Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool drop_drawn_card_flag) {
+
+    Card card;
+    int selection; 
+
+    if (drop_drawn_card_flag == true) {
+
+        if (m_hand.back().getCardColour() == pile.getPile().back().getCardColour() || m_hand.back().getCardSuit() == pile.getPile().back().getCardSuit()
+            || m_hand.back().getCardSuit() == Suit::WILD || m_hand.back().getCardSuit() == Suit::WILD_DRAW_FOUR) {
+
+            std::cout << "The card you have drawn matches the discard pile, so it must automatically be sent to the discard pile" << std::endl; 
+            card = m_hand.back();
+            pile.dropCardToPile(m_hand.back());
+            m_hand.erase(m_hand.end()-1);
+            pile.showPile();
+            return card;
+        }
+
+        else {
+
+            card.setEmptyCard();
+            std::cout << "The card you have drawn does not match pile, so you must keep it" << std::endl; 
+            return card;
+        }
+    }
+
+    std::cout << "Select a card to drop, type 900 to return" << std::endl;
+    std::cin >> selection;
+
+    if (((selection >= 0) && (selection <= m_hand.size()-1)) || (selection == 900)) {
+
+        if (selection == 900) {
+
+            card.setEmptyCard();
+            return card;
+        }
+
+        else if (m_hand[selection].getCardColour() == pile.getPile().back().getCardColour() || m_hand[selection].getCardSuit() == pile.getPile().back().getCardSuit() ||
+            m_hand[selection].getCardSuit() == Suit::WILD || m_hand[selection].getCardSuit() == Suit::WILD_DRAW_FOUR) {
+
+            card = m_hand[selection]; //return card
+            pile.dropCardToPile(m_hand[selection]);
+            m_hand.erase(m_hand.begin() + selection);
+            valid_card_flag = true;
+            pile.showPile();
+            return card;
+        }
+    }
+
+	else {
+
+		std::cout << "Card is invalid and cannot be placed on the pile,  going back to player menu" << std::endl;
+	}
 };
 
-void Player::showHand()
-{
-	int x;
+void Player::setWildCardColor(Color color, Deck& pile) {
 
-	cout << "Player " << getPlayerID() << " hand" << endl;
-
-	for (x = 0; x < myhand.size(); x++)
-
-		cout << x << "." << myhand[x].getCardColour() << " " << myhand[x].getCardType() << endl;
-
-	cout << endl;
-
-};
-void Player::dropCardIntoPile(Deck &deckptr, bool &validcardflag)
-{
-		int dropcard;
-	
-		cout << "Select a card to drop, type 900 to pass" << endl;
-		cin >> dropcard;
-
-				if (dropcard == 900) {
-
-					goto pass;
-
-				}
-
-				else if (myhand[dropcard].getCardColour() == deckptr.getPile().back().getCardColour())
-				{
-					deckptr.discardCard(myhand[dropcard]);
-					myhand.erase(myhand.begin() + dropcard);
-					validcardflag = true;
-				}
-
-				else if (myhand[dropcard].getCardType() == deckptr.getPile().back().getCardType())
-				{
-					deckptr.discardCard(myhand[dropcard]);
-					myhand.erase(myhand.begin() + dropcard);
-					validcardflag = true;
-				}
-
-				else if (myhand[dropcard].getCardType() == "WILD")
-				{
-					deckptr.discardCard(myhand[dropcard]);
-					myhand.erase(myhand.begin() + dropcard);
-					validcardflag = true;
-				}
-
-				else if (myhand[dropcard].getCardType() == "WILD_DRAW_FOUR")
-				{
-					deckptr.discardCard(myhand[dropcard]);
-					myhand.erase(myhand.begin() + dropcard);
-					validcardflag = true;
-				}
-
-				else
-				{
-					cout << "Card is invalid" << endl;
-				}
-
-	pass: 
-
-	
-	deckptr.showPile();
-
-};
-
-vector<Card> Player::getHand()
-{
-	return myhand;
+    pile.setTopPileCardColor(color);
 }

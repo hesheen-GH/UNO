@@ -1,30 +1,81 @@
-#include "pch.h"
 #include "Card.h"
 #include <iostream>
 
+Card::Card() {}
 
-#define DECK 108
+Card::~Card() {}
 
-using namespace std;
+Card::Card(Color color, Suit suit) {
 
-
-Card::Card(string set_color, string set_suit)
-{
-	color = set_color;
-	suit = set_suit;
+	m_color = color;
+	m_suit = suit;
 }
 
-string Card::getCardColour()
-{
-	return color;
+std::string Card::getEnumColorToString() {
+
+    switch (m_color) {
+
+        case RED:
+            return "Red";  
+        case BLUE:
+            return "Blue";
+        case GREEN:
+            return "Green";
+        case YELLOW:
+            return "Yellow";
+        case NO_COLOR:
+            return "No Color";
+        default:
+            return "ERROR"; 
+    }
 }
 
-string Card::getCardType()
-{
-	return suit;
+std::string Card::getEnumSuitToString() {
+
+    switch (m_suit) {
+
+        case ONE:
+            return "One";
+        case TWO:
+            return "Two";
+        case THREE:
+            return "Three";
+        case FOUR:
+            return "Four";
+        case FIVE:
+            return "Five";
+        case SIX:
+            return "Six";
+        case SEVEN:
+            return "Seven";
+        case EIGHT:
+            return "Eight";
+        case NINE:
+            return "Nine";
+        case SKIP:
+            return "Skip";
+        case DRAW_TWO:
+            return "Draw Two";
+        case REVERSE:
+            return "Reverse";
+        case ZERO:
+            return "Zero";
+        case WILD: 
+            return "Wild";
+        case WILD_DRAW_FOUR:
+            return "Wild Draw Four";
+        default:
+            return "ERROR";
+    }
 }
 
-void Card::setCardColour(string temp) //used when a wild card/ wild four plus is played 
-{
-	color = temp;
+void Card::setCardColour(const Color color) {
+
+	m_color = color;
+}
+
+void Card::setEmptyCard() {
+
+    m_suit = Suit::NO_SUIT;
+    m_color = Color::NO_COLOR;
 }

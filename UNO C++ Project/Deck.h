@@ -1,48 +1,38 @@
-#pragma once
-
 #ifndef DECK_H
 #define DECK_H
+#pragma once
 
-#include <string>
 #include <iostream>
-#include <vector>
 #include <random>
 #include <ctime>
 #include <algorithm>
 #include <cstdlib>
 #include "Card.h"
 
+#define MIN_NUM_OF_PLAYERS 2
 
-#define DECK 108
-
-using namespace std;
-
-class Deck
-{
+class Deck {
 
 private:
 
-	int color_INDX, suit_INDX;
-	string color, suit;
-	vector<Card> mydeck;
-	vector<Card> discardpile;
+	std::vector<Card> m_deck;
+	std::vector<Card> m_discardpile;
 
 public:
 
 	Deck();
 	void shuffleDeck();
-	void showAllDeck();
+	void showDeck();
 	void showPile();
-	vector<Card> getDeck();
-	vector<Card> getPile();
-	void setDeck(vector<Card> temp);
-	void setPile(vector<Card> temp);
+    std::vector<Card> getDeck() { return m_deck; }
+    std::vector<Card> getPile() { return m_discardpile; }
+	void setDeck(std::vector<Card> deck);
+	void setPile(std::vector<Card> pile);
 	void restackDeck();
-
-	void setFirstCardToPile();
-	Card drawCard();
-	void discardCard(Card discarded_card);
-	void setWildCardColor(string wildcard);
+	Card setFirstCardToPile();
+	Card drawCardFromDeck();
+	void dropCardToPile(Card card);
+	void setTopPileCardColor(Color color);
 };
 
-#endif 
+#endif

@@ -5,26 +5,56 @@
 #include <string>
 #include <iostream>
 #include <algorithm>
-#include <vector>
 #include <ctime>
 #include <cstdlib>
 
+enum Color {
 
-using namespace std;
+    RED = 0,
+    BLUE,
+    GREEN,
+    YELLOW,
+    NO_COLOR,
+};
 
-class Card
-{
+enum Suit {
+
+    ONE = 0,
+    TWO,
+    THREE,
+    FOUR,
+    FIVE,
+    SIX,
+    SEVEN,
+    EIGHT,
+    NINE,
+    SKIP,
+    DRAW_TWO,
+    REVERSE,
+    WILD_DRAW_FOUR,
+    WILD,
+    ZERO,
+    NO_SUIT
+};
+
+class Card {
+
 private:
 
-	 string color;
-	 string suit;
+     Color m_color;
+     Suit m_suit;
 
 public:
 
-	Card(string set_color, string set_suit);
-	string getCardColour();
-	string getCardType();
-	void setCardColour(string temp);
+    Card();
+    ~Card(); 
+	Card(const Color color, const Suit suit);
+    std::string getEnumColorToString();
+    std::string getEnumSuitToString();
+    Color getCardColour() { return m_color; }
+    Suit getCardSuit() { return m_suit;  }
+	void setCardColour(const Color color);
+    void setEmptyCard();
 };
 
 #endif 

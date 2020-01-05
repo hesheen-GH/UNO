@@ -1,152 +1,103 @@
-#include "pch.h"
 #include "Deck.h"
+#include "Card.h"
 
+Deck::Deck() {
 
-Deck::Deck()
-{
-	// ALL NON ZERO AND NON WILD CARDS
+	// all non-zero and non-wild cards, each containing 2 copies for each suit 
+	for (uint8_t suit = static_cast<uint8_t>(Suit::ONE) ; suit < static_cast<int>(Suit::WILD_DRAW_FOUR); suit++) {
 
-	for (suit_INDX = 1; suit_INDX < 13; suit_INDX++)
-	{
-		switch (suit_INDX)
-		{
-		case 1: suit = "ONE"; break;
-		case 2: suit = "TWO"; break;
-		case 3: suit = "THREE"; break;
-		case 4: suit = "FOUR"; break;
-		case 5: suit = "FIVE"; break;
-		case 6: suit = "SIX"; break;
-		case 7: suit = "SEVEN"; break;
-		case 8: suit = "EIGHT"; break;
-		case 9: suit = "NINE"; break;
-		case 10: suit = "SKIP"; break;
-		case 11: suit = "DRAW_TWO"; break;
-		case 12: suit = "REVERSE"; break;
-		}
-
-		for (color_INDX = 0; color_INDX < 4; color_INDX++)
-		{
-			switch (color_INDX)
-			{
-			case 0: color = "RED"; break;
-			case 1: color = "BLUE"; break;
-			case 2: color = "GREEN"; break;
-			case 3: color = "YELLOW"; break;
-			}
-
-			mydeck.push_back(Card(color, suit));
-			mydeck.push_back(Card(color, suit));
+		for (uint8_t color = static_cast<uint8_t>(Color::RED); color < static_cast<int>(Color::NO_COLOR); color++) {
+			
+			m_deck.push_back(Card(static_cast<Color>(color), static_cast<Suit>(suit)));
+			m_deck.push_back(Card(static_cast<Color>(color), static_cast<Suit>(suit)));
 		}
 	}
 
 	// ZERO CARD AND WILD CARDS
-
-	for (color_INDX = 0; color_INDX < 4; color_INDX++)
-	{
-		switch (color_INDX)
-		{
-		case 0: color = "RED"; break;
-		case 1: color = "BLUE"; break;
-		case 2: color = "GREEN"; break;
-		case 3: color = "YELLOW"; break;
-		default: cout << "Hello" << endl;
-
-		}
-		mydeck.push_back(Card(color, "ZERO"));
-		mydeck.push_back(Card("NO_COLOR", "WILD"));
-		mydeck.push_back(Card("NO_COLOR", "WILD_DRAW_FOUR")); //temp
+	for (uint8_t color = static_cast<uint8_t>(Color::RED); color < static_cast<uint8_t>(Color::NO_COLOR); color++) {
+		
+		m_deck.push_back(Card(static_cast<Color>(color), Suit::ZERO));
+		m_deck.push_back(Card(Color::NO_COLOR, Suit::WILD));
+		m_deck.push_back(Card(Color::NO_COLOR, Suit::WILD_DRAW_FOUR)); 
 	}
 
-	cout << endl;
+	std::cout << std::endl;
 }
 
+void Deck::restackDeck() {
 
+    for (int i = 0; i < m_discardpile.size(); i++) {
 
-void Deck::restackDeck()
-{
-	discardpile.clear();
-	Deck(); //create new deck
-	shuffleDeck();
-	discardpile.push_back(mydeck.back());
+        m_deck.push_back(m_discardpile[i]);
+    }
+    
+    m_discardpile.clear();
+    shuffleDeck();
+	m_discardpile.push_back(m_deck.back()); //must havce one card in discard pile
 }
 
-void Deck::shuffleDeck()
-{
+void Deck::shuffleDeck() {
+
 	srand(time(0));
-	random_shuffle(mydeck.begin(), mydeck.end());
+	random_shuffle(m_deck.begin(), m_deck.end());
 }
 
-void Deck::showAllDeck()
+void Deck::showDeck() {
 
-{
-	int temp;
-
-	for (temp = 0; temp < mydeck.size(); temp++)
+	for (uint8_t i = 0; i < m_deck.size(); i++)
 	{
-		cout << "Card Number " << temp << "is" << mydeck[temp].getCardColour() << " " << mydeck[temp].getCardType() << endl;
+		std::cout << "Card Number " << i << "is" << m_deck[i].getEnumColorToString() << " " << m_deck[i].getEnumSuitToString() << std::endl;
 	}
-
-	cout << endl;
+	std::cout << std::endl;
 }
 
-void Deck::showPile()
-{
-	int temp;
+void Deck::showPile() {
 
-	cout << "This is the discard pile: " << endl;
+	std::cout << "This is the discard pile: " << std::endl;
 
-	for (temp = 0; temp < discardpile.size(); temp++)
+	for (uint8_t i = 0; i < m_discardpile.size(); i++)
 	{
-		cout << "Card Number " << temp << "is" << discardpile[temp].getCardColour() << " " << discardpile[temp].getCardType() << endl;
+		std::cout << "Card Number " << i << "is" << m_discardpile[i].getEnumColorToString() << " " << m_discardpile[i].getEnumSuitToString() << std::endl;
 	}
+	std::cout << std::endl;
+}
 
-	cout << endl;
+void Deck::setDeck(std::vector<Card> deck) {
+
+	m_deck = deck;
+}
+
+void Deck::setPile(std::vector<Card> pile) {
+
+	m_discardpile = pile;
 }
 
 
-vector<Card> Deck::getDeck() 
-{
-	return mydeck;
+Card Deck::setFirstCardToPile() {
+
+    m_discardpile.push_back(m_deck.back()); //begin game
+    m_deck.pop_back();  
+    return m_discardpile.back(); 
 }
 
-vector<Card> Deck::getPile() {
+Card Deck::drawCardFromDeck() {
 
-	return discardpile;
-}
+	if (m_deck.size() == 0) {
 
-void Deck::setDeck(vector<Card> temp) 
-{
-	mydeck = temp;
-}
-
-void Deck::setPile(vector<Card> temp) 
-{
-	discardpile = temp;
-}
-
-void Deck::setFirstCardToPile() //begin game
-{
-	discardpile.push_back(mydeck.back());
-}
-
-Card Deck::drawCard() 
-{
-	if (mydeck.size() == 0)
-	{
 		restackDeck();
 	}
 
-	Card drawn_card = mydeck.back();
-	mydeck.pop_back();
-	return drawn_card;
+	Card card = m_deck.back();
+	m_deck.pop_back();
+	return card;
 }
 
-void Deck::discardCard(Card discarded_card) 
+void Deck::dropCardToPile(Card card) 
 {
-	discardpile.push_back(discarded_card);
+	m_discardpile.push_back(card);
 }
 
-void Deck::setWildCardColor(string wildcard) {
+void Deck::setTopPileCardColor(Color color) {
 
-	discardpile.back().setCardColour(wildcard);
+	m_discardpile.back().setCardColour(color);
 }

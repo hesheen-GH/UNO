@@ -1,4 +1,3 @@
-
 #ifndef GAME_H
 #define GAME_H
 #pragma once
@@ -11,45 +10,40 @@
 #include <cstdlib>
 #include <chrono>
 #include <thread>
-
 #include "Player.h"
+#include "Deck.h"
+#include "Card.h"
 
 
-using namespace std;
+class Game {
 
-class Game
-{
+private: 
+
+    std::vector<Player> m_players;
+    Deck m_deck; 
+    Card m_topPileCard; 
+    bool m_win = false;
+    int m_turnCtr = 0; 
 
 public:
+
 	Game();
 	int getNumOfPlayers();
+	void shufflePlayers();
+	void runTurn(std::vector<Player>::iterator it);
+	void deletePlayer(std::vector<Player>::iterator& it);
 
-	void shufflePlayers(vector<Player> &playerlist);
-	void runTurn(vector<Player> &playerptr, Deck &deckptr, int i);
-	void setInitialCardToPile(Deck &deckptr);
-	void deletePlayer(vector<Player> &player, int i);
-	void FirstPileCardEffect(vector<Player> &player, Deck &deckptr, int &iptr);
-
-	void checkforWild(Deck &deckptr);
-	bool checkforWildFour(vector<Player> &player, Deck &deckptr, int &iptr);
-	bool checkforDrawTwo(vector<Player> &player, Deck &deckptr, int &iptr);
-	bool checkforReverse(vector<Player> &player, Deck &deckptr);
-	bool checkforSkip(vector<Player> &player, Deck &deckptr, int &iptr);
-
-	void drawTwoCards(vector<Player> &player, Deck &deckptr, int &iptr, bool flag);
-	void reversePlayers(vector<Player> &player, Deck &deckptr, int &iptr, bool flag);
-	void skipPlayer(vector<Player> &player, Deck &deckptr, int &iptr, bool flag);
-	void drawWildFourPlus(vector<Player> &player, Deck &deckptr, int &iptr, bool flag);
+    //checks
+    void checkWin();
+    void checkForWild();
+	void checkForDrawTwo(std::vector<Player>::iterator& it);
+	void checkForReverse();
+	void checkForSkip(std::vector<Player>::iterator& it);
+	void checkForWildDrawFour(std::vector<Player>::iterator& it);
 	
-
-	
-
-	void displayOtherPlayersHands(vector<Player> player, Deck deckptr, int iptr);
-
-	void displayPlayerMenu(vector<Player> player, Deck deckptr, int iptr);
-
-	bool checkWin(vector<Player> player);
+    //displays
+    void displayOtherPlayersHands(std::vector<Player>::iterator it);
+    void displayPlayerMenu(std::vector<Player>::iterator it);
 };
 
 #endif
-

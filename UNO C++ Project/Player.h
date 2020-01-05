@@ -1,6 +1,6 @@
-#pragma once
 #ifndef PLAYER_H
 #define PLAYER_H
+#pragma once
 
 
 #include <string>
@@ -12,34 +12,26 @@
 #include "Deck.h"
 #include "Card.h"
 
-#define DECK 108
-#define START_HAND 7
+#define START_HAND_SIZE 7
 
-using namespace std;
-
-class Player : public Deck
-{
+class Player {
 
 private:
 
-	string player_ID;
-
-	vector<Card> myhand;
+    std::string m_ID; 
+    std::vector<Card> m_hand;
 
 public:
 
-	//Player(Deck *deck);
 	Player();
-
-	string getPlayerID();
-	void setPlayerID(string ID);
-	void drawStartingHand(Deck &deckptr);
-	void drawCard(Deck &deckptr);
+    std::string getPlayerID() { return m_ID; } 
+	void setPlayerID(const std::string ID);
+	void drawStartingHand(Deck &deck);
+	void drawCard(Deck &deck);
 	void showHand(); //cout
-	vector<Card> getHand();
-	void dropCardIntoPile(Deck &deckptr, bool &validcardflag);
-
-	//void dropCard();
+    std::vector<Card> getHand() { return m_hand; }
+	Card dropCardIntoPile(Deck& pile, bool &valid_card_flag, bool drop_drawn_card_flag);
+    void setWildCardColor(Color color, Deck& pile);
 
 };
 
