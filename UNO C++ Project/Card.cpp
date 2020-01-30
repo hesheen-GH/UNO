@@ -5,7 +5,7 @@ Card::Card() {}
 
 Card::~Card() {}
 
-Card::Card(Color color, Suit suit) {
+Card::Card(const Color color, const Suit suit) {
 
 	m_color = color;
 	m_suit = suit;
@@ -74,8 +74,3 @@ void Card::setCardColour(const Color color) {
 	m_color = color;
 }
 
-void Card::setEmptyCard() {
-
-    m_suit = Suit::NO_SUIT;
-    m_color = Color::NO_COLOR;
-}

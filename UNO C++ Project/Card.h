@@ -41,8 +41,8 @@ class Card {
 
 private:
 
-     Color m_color;
-     Suit m_suit;
+    Color m_color;
+    Suit m_suit;  
 
 public:
 
@@ -54,7 +54,6 @@ public:
     Color getCardColour() { return m_color; }
     Suit getCardSuit() { return m_suit;  }
 	void setCardColour(const Color color);
-    void setEmptyCard();
 };
 
 #endif 

@@ -4,9 +4,14 @@
 
 Player::Player() {} //pass by pointer, getDeck returns vector<Card> mydeck and from there adjust and change the values, then set it again.{}
 
-void Player::setPlayerID(const std::string ID) {
+void Player::setPlayerID(const int id) {
 
-	m_ID = ID;
+    m_ID = id; 
+}
+
+void Player::setPlayerName(const std::string name) {
+
+	m_name = name;
 }
 
 void Player::drawStartingHand(Deck &deck) {
@@ -24,7 +29,7 @@ void Player::drawCard(Deck &deck) {
 
 void Player::showHand() {
 
-	std::cout << "Player " << getPlayerID() << " hand" << std::endl;
+	std::cout << "Player " << getPlayerName() << " hand" << std::endl;
 
     for (int i = 0; i < m_hand.size(); i++) {
 
@@ -33,18 +38,18 @@ void Player::showHand() {
 	std::cout << std::endl;
 }
 
-Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool drop_drawn_card_flag) {
+Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool ignore_draw_flag) {
 
-    Card card;
     int selection; 
 
-    if (drop_drawn_card_flag == true) {
+    //Scenario: Player decides to not play a card, so he must draw one from deck
+    if (ignore_draw_flag == true) {
 
         if (m_hand.back().getCardColour() == pile.getPile().back().getCardColour() || m_hand.back().getCardSuit() == pile.getPile().back().getCardSuit()
             || m_hand.back().getCardSuit() == Suit::WILD || m_hand.back().getCardSuit() == Suit::WILD_DRAW_FOUR) {
 
-            std::cout << "The card you have drawn matches the discard pile, so it must automatically be sent to the discard pile" << std::endl; 
-            card = m_hand.back();
+            std::cout <<"The card you have drawn matches the discard pile, so it must automatically be sent to the discard pile" << std::endl; 
+            Card card = m_hand.back();
             pile.dropCardToPile(m_hand.back());
             m_hand.erase(m_hand.end()-1);
             pile.showPile();
@@ -53,12 +58,12 @@ Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool drop_drawn
 
         else {
 
-            card.setEmptyCard();
             std::cout << "The card you have drawn does not match pile, so you must keep it" << std::endl; 
-            return card;
+            return {};
         }
     }
 
+    //Scenario: Player decides to drop a card, he may return to the menu if he makes a mistake
     std::cout << "Select a card to drop, type 900 to return" << std::endl;
     std::cin >> selection;
 
@@ -66,14 +71,14 @@ Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool drop_drawn
 
         if (selection == 900) {
 
-            card.setEmptyCard();
-            return card;
+            std::cout << "Returning to player menu" << std::endl;
+            return {};
         }
 
         else if (m_hand[selection].getCardColour() == pile.getPile().back().getCardColour() || m_hand[selection].getCardSuit() == pile.getPile().back().getCardSuit() ||
             m_hand[selection].getCardSuit() == Suit::WILD || m_hand[selection].getCardSuit() == Suit::WILD_DRAW_FOUR) {
 
-            card = m_hand[selection]; //return card
+            Card card = m_hand[selection];
             pile.dropCardToPile(m_hand[selection]);
             m_hand.erase(m_hand.begin() + selection);
             valid_card_flag = true;
@@ -84,7 +89,7 @@ Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool drop_drawn
 
 	else {
 
-		std::cout << "Card is invalid and cannot be placed on the pile,  going back to player menu" << std::endl;
+		std::cout << "Card is invalid and cannot be placed on the pile, going back to player menu" << std::endl;
 	}
 };
 

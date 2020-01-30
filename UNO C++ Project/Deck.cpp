@@ -3,6 +3,7 @@
 
 Deck::Deck() {
 
+    
 	// all non-zero and non-wild cards, each containing 2 copies for each suit 
 	for (uint8_t suit = static_cast<uint8_t>(Suit::ONE) ; suit < static_cast<int>(Suit::WILD_DRAW_FOUR); suit++) {
 
@@ -32,8 +33,22 @@ void Deck::restackDeck() {
     }
     
     m_discardpile.clear();
+
+    for (auto it = m_deck.begin(); it != m_deck.end(); it++) {
+
+        if (it->getCardSuit() == Suit::WILD_DRAW_FOUR || it->getCardSuit() == Suit::WILD) {
+
+            it->setCardColour(Color::NO_COLOR);
+        }
+    }
+
     shuffleDeck();
 	m_discardpile.push_back(m_deck.back()); //must havce one card in discard pile
+
+    if ((m_discardpile.back().getCardSuit() == Suit::WILD) || (m_discardpile.back().getCardSuit() == Suit::WILD_DRAW_FOUR)) {
+
+        m_discardpile.back().setCardColour(static_cast<Color>(rand() % MAX_NUM_OF_COLORS));
+    }
 }
 
 void Deck::shuffleDeck() {
@@ -44,46 +59,41 @@ void Deck::shuffleDeck() {
 
 void Deck::showDeck() {
 
-	for (uint8_t i = 0; i < m_deck.size(); i++)
-	{
+	for (int i = 0; i < m_deck.size(); i++) {
+
 		std::cout << "Card Number " << i << "is" << m_deck[i].getEnumColorToString() << " " << m_deck[i].getEnumSuitToString() << std::endl;
 	}
-	std::cout << std::endl;
+	std::cout << std::endl; // try setting m_booleans here
 }
 
 void Deck::showPile() {
 
 	std::cout << "This is the discard pile: " << std::endl;
 
-	for (uint8_t i = 0; i < m_discardpile.size(); i++)
+	for (int i = 0; i < m_discardpile.size(); i++)
 	{
 		std::cout << "Card Number " << i << "is" << m_discardpile[i].getEnumColorToString() << " " << m_discardpile[i].getEnumSuitToString() << std::endl;
 	}
 	std::cout << std::endl;
 }
 
-void Deck::setDeck(std::vector<Card> deck) {
+void Deck::setFirstCardToPile() {
 
-	m_deck = deck;
-}
+    m_discardpile.push_back(m_deck.back()); 
+    
+    if ((m_discardpile.back().getCardSuit() == Suit::WILD) || (m_discardpile.back().getCardSuit() == Suit::WILD_DRAW_FOUR)) {
 
-void Deck::setPile(std::vector<Card> pile) {
-
-	m_discardpile = pile;
-}
-
-
-Card Deck::setFirstCardToPile() {
-
-    m_discardpile.push_back(m_deck.back()); //begin game
+        m_discardpile.back().setCardColour(static_cast<Color>(rand() % MAX_NUM_OF_COLORS));
+    }
+    //begin game
     m_deck.pop_back();  
-    return m_discardpile.back(); 
 }
 
 Card Deck::drawCardFromDeck() {
 
 	if (m_deck.size() == 0) {
 
+        //m_restack = true;
 		restackDeck();
 	}
 

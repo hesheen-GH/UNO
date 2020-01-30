@@ -10,6 +10,7 @@
 #include "Card.h"
 
 #define MIN_NUM_OF_PLAYERS 2
+#define MAX_NUM_OF_COLORS 4
 
 class Deck {
 
@@ -26,10 +27,8 @@ public:
 	void showPile();
     std::vector<Card> getDeck() { return m_deck; }
     std::vector<Card> getPile() { return m_discardpile; }
-	void setDeck(std::vector<Card> deck);
-	void setPile(std::vector<Card> pile);
 	void restackDeck();
-	Card setFirstCardToPile();
+	void setFirstCardToPile();
 	Card drawCardFromDeck();
 	void dropCardToPile(Card card);
 	void setTopPileCardColor(Color color);
