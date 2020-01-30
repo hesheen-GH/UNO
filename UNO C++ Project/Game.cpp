@@ -52,38 +52,38 @@ int Game::getNumOfPlayers() {
 
     while (flag == false) {
 
-	    std::cout << "Choose between 2-10 players" << std::endl;
-	    std::cin >> num_players;
-	    switch (num_players) {
+        std::cout << "Choose between 2-10 players" << std::endl;
+        std::cin >> num_players;
+        switch (num_players) {
 
             case 2:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 3:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 4:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 5:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 6:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 7:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 8:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 9:
-	            flag = true;
-	            break;
+                flag = true;
+                break;
             case 10:
-	            flag = true;
-	            break;
-		    default: 
+                flag = true;
+                break;
+            default: 
                 std::cout << "Enter a valid number" << std::endl;
         }
     }
@@ -115,15 +115,15 @@ void Game::shufflePlayers() {
 
 void Game::runTurn(std::vector<Player>::iterator& it) {
 
-	int user_choice;
-	bool valid_card_flag = false;
+    int user_choice;
+    bool valid_card_flag = false;
     bool ignore_draw_flag = false; 
     Card card = {};
 
     displayPlayerMenu(it);
-	std::cout << "Its  " << it->getPlayerName() << " 's turn" << std::endl;
+    std::cout << "Its  " << it->getPlayerName() << " 's turn" << std::endl;
 
-	while (valid_card_flag == false) {
+    while (valid_card_flag == false) {
 
         std::cout << "What would you like to do? " << std::endl;
         std::cout << "0. Choose Card to drop to discard pile" << std::endl;
@@ -134,11 +134,11 @@ void Game::runTurn(std::vector<Player>::iterator& it) {
 
         switch (user_choice) {
 
-		    case 0:
+            case 0:
                 card = it->dropCardIntoPile(m_deck, valid_card_flag, ignore_draw_flag);
                 break;
 
-		    case 1:
+            case 1:
                 ignore_draw_flag = true; 
                 it->drawCard(m_deck);
                 displayPlayerMenu(it);
@@ -147,11 +147,11 @@ void Game::runTurn(std::vector<Player>::iterator& it) {
                 valid_card_flag = true;
                 break;
 
-		    /*case 2:
-		    	std::cout << "Player " << it->getPlayerName() << "has left the game" << std::endl;
-		    	deletePlayer(it);
-		    	valid_card_flag = true;
-		        break;*/
+            /*case 2:
+	            std::cout << "Player " << it->getPlayerName() << "has left the game" << std::endl;
+	            deletePlayer(it);
+	            valid_card_flag = true;
+	            break;*/
 
             default:
                 std::cout << "Please enter a valid selection" << std::endl;
@@ -167,7 +167,7 @@ void Game::checkWin() {
 
     for (auto it = m_players.begin(); it != m_players.end(); it++) {
 
-	    switch (it->getHand().size()) {
+        switch (it->getHand().size()) {
 
             case 0:
                 std::cout << "Winner winner chicken dinner, "<< it->getPlayerName() << " is the winner";
@@ -175,7 +175,7 @@ void Game::checkWin() {
                 m_win = true;
                 break;
 
-		    default:
+            default:
                 break; //no winner
 	    }
     }

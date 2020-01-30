@@ -61,7 +61,7 @@ void Deck::showDeck() {
 
     for (int i = 0; i < m_deck.size(); i++) {
 
-	    std::cout << "Card Number " << i << "is" << m_deck[i].getEnumColorToString() << " " << m_deck[i].getEnumSuitToString() << std::endl;
+        std::cout << "Card Number " << i << "is" << m_deck[i].getEnumColorToString() << " " << m_deck[i].getEnumSuitToString() << std::endl;
     }
 
     std::cout << std::endl; // try setting m_booleans here
@@ -71,9 +71,9 @@ void Deck::showPile() {
 
     std::cout << "This is the discard pile: " << std::endl;
 
-    for (int i = 0; i < m_discardpile.size(); i++)
-    {
-	    std::cout << "Card Number " << i << "is" << m_discardpile[i].getEnumColorToString() << " " << m_discardpile[i].getEnumSuitToString() << std::endl;
+    for (int i = 0; i < m_discardpile.size(); i++) {
+	    
+        std::cout << "Card Number " << i << "is" << m_discardpile[i].getEnumColorToString() << " " << m_discardpile[i].getEnumSuitToString() << std::endl;
     }
 
     std::cout << std::endl;
@@ -95,7 +95,7 @@ Card Deck::drawCardFromDeck() {
 
     if (m_deck.size() == 0) {
 
-	    restackDeck();
+        restackDeck();
     }
 
     Card card = m_deck.back();
