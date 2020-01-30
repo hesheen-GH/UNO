@@ -7,8 +7,8 @@ Card::~Card() {}
 
 Card::Card(const Color color, const Suit suit) {
 
-	m_color = color;
-	m_suit = suit;
+    m_color = color;
+    m_suit = suit;
 }
 
 std::string Card::getEnumColorToString() {
@@ -71,6 +71,6 @@ std::string Card::getEnumSuitToString() {
 
 void Card::setCardColour(const Color color) {
 
-	m_color = color;
+    m_color = color;
 }
 

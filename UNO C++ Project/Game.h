@@ -30,23 +30,23 @@ private:
 
 public:
 
-	Game();
-	int getNumOfPlayers();
-	void shufflePlayers();
+    Game();
+    int getNumOfPlayers();
+    void shufflePlayers();
     void startTurn(std::vector<Player>::iterator& it);
-	void runTurn(std::vector<Player>::iterator& it);
+    void runTurn(std::vector<Player>::iterator& it);
     void endTurn(std::vector<Player>::iterator& it, Card card);
-	//void deletePlayer(std::vector<Player>::iterator& it);
+    //void deletePlayer(std::vector<Player>::iterator& it);
 
     //checks
     void checkWin();
 
     //Card functions
     void Wild();
-	void DrawTwo(std::vector<Player>::iterator& it);
-	void Reverse(std::vector<Player>::iterator& it);
-	void Skip(std::vector<Player>::iterator& it);
-	void WildDrawFour(std::vector<Player>::iterator& it);
+    void DrawTwo(std::vector<Player>::iterator& it);
+    void Reverse(std::vector<Player>::iterator& it);
+    void Skip(std::vector<Player>::iterator& it);
+    void WildDrawFour(std::vector<Player>::iterator& it);
 	
     //displays
     void displayOtherPlayersHands(std::vector<Player>::iterator it);

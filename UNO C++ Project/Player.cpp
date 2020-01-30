@@ -11,31 +11,32 @@ void Player::setPlayerID(const int id) {
 
 void Player::setPlayerName(const std::string name) {
 
-	m_name = name;
+    m_name = name;
 }
 
 void Player::drawStartingHand(Deck &deck) {
 
-	for (uint8_t i = 0; i < START_HAND_SIZE; i++) {
+    for (uint8_t i = 0; i < START_HAND_SIZE; i++) {
 
         drawCard(deck);       
-	}
+    }
 }
 
 void Player::drawCard(Deck &deck) {
 
-	m_hand.push_back(deck.drawCardFromDeck());
+    m_hand.push_back(deck.drawCardFromDeck());
 }
 
 void Player::showHand() {
 
-	std::cout << "Player " << getPlayerName() << " hand" << std::endl;
+    std::cout << "Player " << getPlayerName() << " hand" << std::endl;
 
     for (int i = 0; i < m_hand.size(); i++) {
 
         std::cout << i << "." << m_hand[i].getEnumColorToString() << " " << m_hand[i].getEnumSuitToString() << std::endl;
     }
-	std::cout << std::endl;
+
+    std::cout << std::endl;
 }
 
 Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool ignore_draw_flag) {
@@ -87,10 +88,10 @@ Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool ignore_dra
         }
     }
 
-	else {
+    else {
 
-		std::cout << "Card is invalid and cannot be placed on the pile, going back to player menu" << std::endl;
-	}
+        std::cout << "Card is invalid and cannot be placed on the pile, going back to player menu" << std::endl;
+    }
 };
 
 void Player::setWildCardColor(Color color, Deck& pile) {

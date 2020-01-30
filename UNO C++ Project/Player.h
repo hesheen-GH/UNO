@@ -24,16 +24,16 @@ private:
 
 public:
 
-	Player();
+    Player();
     std::string getPlayerName() { return m_name; } 
     int getPlayerID() { return m_ID; }
-	void setPlayerName(const std::string name);
+    void setPlayerName(const std::string name);
     void setPlayerID(const int id);
-	void drawStartingHand(Deck &deck);
-	void drawCard(Deck &deck);
-	void showHand(); //cout
+    void drawStartingHand(Deck &deck);
+    void drawCard(Deck &deck);
+    void showHand(); //cout
     std::vector<Card> getHand() { return m_hand; }
-	Card dropCardIntoPile(Deck& pile, bool &valid_card_flag, bool ignore_draw_flag);
+    Card dropCardIntoPile(Deck& pile, bool &valid_card_flag, bool ignore_draw_flag);
     void setWildCardColor(Color color, Deck& pile);
 };
 

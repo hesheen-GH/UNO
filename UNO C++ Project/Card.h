@@ -48,12 +48,12 @@ public:
 
     Card();
     ~Card(); 
-	Card(const Color color, const Suit suit);
+    Card(const Color color, const Suit suit);
     std::string getEnumColorToString();
     std::string getEnumSuitToString();
     Color getCardColour() { return m_color; }
     Suit getCardSuit() { return m_suit;  }
-	void setCardColour(const Color color);
+    void setCardColour(const Color color);
 };
 
 #endif 
