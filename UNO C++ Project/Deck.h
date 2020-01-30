@@ -16,22 +16,22 @@ class Deck {
 
 private:
 
-	std::vector<Card> m_deck;
-	std::vector<Card> m_discardpile;
+    std::vector<Card> m_deck;
+    std::vector<Card> m_discardpile;
 
 public:
 
-	Deck();
-	void shuffleDeck();
-	void showDeck();
-	void showPile();
+    Deck();
+    void shuffleDeck();
+    void showDeck();
+    void showPile();
     std::vector<Card> getDeck() { return m_deck; }
     std::vector<Card> getPile() { return m_discardpile; }
-	void restackDeck();
-	void setFirstCardToPile();
-	Card drawCardFromDeck();
-	void dropCardToPile(Card card);
-	void setTopPileCardColor(Color color);
+    void restackDeck();
+    void setFirstCardToPile();
+    Card drawCardFromDeck();
+    void dropCardToPile(Card card);
+    void setTopPileCardColor(Color color);
 };
 
 #endif
