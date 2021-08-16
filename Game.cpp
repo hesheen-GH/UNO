@@ -7,10 +7,12 @@ Game::Game()
     std::string player_name;
 
     m_players.resize(getNumOfPlayers()); 
-    system("CLS"); 
+
+    //clear screen
+    system("clear"); 
     m_deck.shuffleDeck();
 
-    //Starting Hand and player names
+    //set Starting Hand and player names
     for (int i = 0; i < m_players.size(); i++) {
 
         std::cout << "Please enter a name" << std::endl;
@@ -20,10 +22,12 @@ Game::Game()
         m_players[i].drawStartingHand(m_deck);
     }
 
+    //randomize player sequence
     shufflePlayers(); 
     std::cout << m_players[0].getPlayerName() << " will go first" << std::endl << std::endl;
+    //pause program for 1 second to refresh display
     std::this_thread::sleep_for(std::chrono::seconds(1));
-    system("CLS");
+    system("clear");
     m_deck.setFirstCardToPile();
 
     while (m_win == false) {
@@ -40,7 +44,7 @@ Game::Game()
 
             startTurn(it);
             checkWin();
-            system("CLS");
+            system("clear");
         }
     }
 }
@@ -93,6 +97,7 @@ int Game::getNumOfPlayers() {
 
 void Game::shufflePlayers() {
 
+    //randomize player order
     srand(time(0));
     std::random_shuffle(m_players.begin(), m_players.end());
 }
@@ -112,8 +117,8 @@ void Game::shufflePlayers() {
 void Game::runTurn(std::vector<Player>::iterator& it) {
 
     int user_choice;
-    bool valid_card_flag = false;
-    bool ignore_draw_flag = false; 
+    bool valid_card_flag = false; //flag to determine if dropped card matches discard pile
+    bool draw_flag = false; //flag used to determine if player will not drop a card but instead draw from deck
     Card card = {};
 
     displayPlayerMenu(it);
@@ -123,7 +128,7 @@ void Game::runTurn(std::vector<Player>::iterator& it) {
 
         std::cout << "What would you like to do? " << std::endl;
         std::cout << "0. Choose Card to drop to discard pile" << std::endl;
-        std::cout << "1. Do Nothing and Draw a Card, if there is a match, you have to play that card" << std::endl;
+        std::cout << "1. Do Nothing and Draw a Card, if there is a match, you have to automatically play that card" << std::endl;
         //std::cout << "2. Surrender" << std::endl;
 
         std::cin >> user_choice;
@@ -131,15 +136,15 @@ void Game::runTurn(std::vector<Player>::iterator& it) {
         switch (user_choice) {
 
             case 0:
-                card = it->dropCardIntoPile(m_deck, valid_card_flag, ignore_draw_flag);
+                card = it->dropCardIntoPile(m_deck, valid_card_flag, draw_flag);
                 break;
 
             case 1:
-                ignore_draw_flag = true; 
+                draw_flag = true; 
                 it->drawCard(m_deck);
                 displayPlayerMenu(it);
-                card = it->dropCardIntoPile(m_deck, valid_card_flag, ignore_draw_flag);
-                ignore_draw_flag = false; 
+                card = it->dropCardIntoPile(m_deck, valid_card_flag, draw_flag);
+                draw_flag = false; 
                 valid_card_flag = true;
                 break;
 
@@ -254,6 +259,7 @@ void Game::Reverse(std::vector<Player>::iterator& it) {
     }
 
     it = m_players.begin() + i; 
+    m_reverse = false;
     std::this_thread::sleep_for(std::chrono::milliseconds(1500));
 }
     
@@ -266,6 +272,8 @@ void Game::Skip(std::vector<Player>::iterator& it) {
 
 void Game::displayOtherPlayersHands(std::vector<Player>::iterator it) {
     
+    //Allows you to see how many cards in other player's hands
+
     std::cout << "These are other player's hands" << std::endl;
 
     for (auto y = m_players.begin(); y != m_players.end(); y++) {
@@ -290,7 +298,7 @@ void Game::displayOtherPlayersHands(std::vector<Player>::iterator it) {
 
 void Game::displayPlayerMenu(std::vector<Player>::iterator it) {
 
-    system("CLS");
+    system("clear");
     displayOtherPlayersHands(it);
     std::cout << std::endl << "There are " << m_deck.getDeck().size() << " cards remaining in the deck" << std::endl;
     m_deck.showPile();

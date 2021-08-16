@@ -6,7 +6,6 @@
 #include <random>
 #include <ctime>
 #include <algorithm>
-#include <cstdlib>
 #include "Card.h"
 
 #define MIN_NUM_OF_PLAYERS 2
@@ -31,7 +30,7 @@ public:
     void setFirstCardToPile();
     Card drawCardFromDeck();
     void dropCardToPile(Card card);
-    void setTopPileCardColor(Color color);
+    void setTopPileCardColor(const Color color);
 };
 
 #endif

@@ -3,11 +3,8 @@
 #pragma once
 
 #include <string>
-#include <iostream>
-#include <algorithm>
-#include <ctime>
-#include <cstdlib>
 
+//Color enumerations. UNO has 4 different colors. NO_COLOR is used for WILD_DRAW_FOUR and WILD cards
 enum Color {
 
     RED = 0,
@@ -17,6 +14,7 @@ enum Color {
     NO_COLOR,
 };
 
+//Suit enumerations. UNO has a variety of different cards, including number, skip, reverse, draw +2 and +4 cards. 
 enum Suit {
 
     ONE = 0,

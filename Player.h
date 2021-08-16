@@ -4,10 +4,6 @@
 
 #include <string>
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <ctime>
-#include <cstdlib>
 #include "Deck.h"
 #include "Card.h"
 
@@ -33,7 +29,7 @@ public:
     void showHand(); //cout
     std::vector<Card> getHand() { return m_hand; }
     Card dropCardIntoPile(Deck& pile, bool &valid_card_flag, bool ignore_draw_flag);
-    void setWildCardColor(Color color, Deck& pile);
+    void setWildCardColor(const Color color, Deck& pile);
 };
 
 #endif

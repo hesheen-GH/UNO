@@ -1,5 +1,4 @@
 #include "Card.h"
-#include <iostream>
 
 Card::Card() {}
 

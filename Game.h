@@ -22,6 +22,10 @@ private:
     std::vector<Player> m_players;
     Deck m_deck; 
     bool m_win = false;
+
+    /*the purpose of having these flags is that there could be an action card on the top of the 
+    discard pile but it has already been used.*/
+    
     bool m_wildDrawFour = false;
     bool m_drawTwo = false;
     bool m_reverse = false;
@@ -41,7 +45,7 @@ public:
     //checks
     void checkWin();
 
-    //Card functions
+    //action Card functions
     void Wild();
     void DrawTwo(std::vector<Player>::iterator& it);
     void Reverse(std::vector<Player>::iterator& it);

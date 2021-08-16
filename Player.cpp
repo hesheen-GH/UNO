@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <string.h>
 
 Player::Player() {} //pass by pointer, getDeck returns vector<Card> mydeck and from there adjust and change the values, then set it again.{}
 
@@ -15,7 +14,7 @@ void Player::setPlayerName(const std::string name) {
 
 void Player::drawStartingHand(Deck &deck) {
 
-    for (uint8_t i = 0; i < START_HAND_SIZE; i++) {
+    for (int i = 0; i < START_HAND_SIZE; i++) {
 
         drawCard(deck);       
     }
@@ -38,12 +37,12 @@ void Player::showHand() {
     std::cout << std::endl;
 }
 
-Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool ignore_draw_flag) {
+Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool draw_flag) {
 
     int selection; 
 
     //Scenario: Player decides to not play a card, so he must draw one from deck
-    if (ignore_draw_flag == true) {
+    if (draw_flag == true) {
 
         if (m_hand.back().getCardColour() == pile.getPile().back().getCardColour() || m_hand.back().getCardSuit() == pile.getPile().back().getCardSuit()
             || m_hand.back().getCardSuit() == Suit::WILD || m_hand.back().getCardSuit() == Suit::WILD_DRAW_FOUR) {
@@ -91,9 +90,9 @@ Card Player::dropCardIntoPile(Deck &pile, bool &valid_card_flag, bool ignore_dra
 
         std::cout << "Card is invalid and cannot be placed on the pile, going back to player menu" << std::endl;
     }
-};
+}
 
-void Player::setWildCardColor(Color color, Deck& pile) {
+void Player::setWildCardColor(const Color color, Deck& pile) {
 
     pile.setTopPileCardColor(color);
 }
